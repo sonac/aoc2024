@@ -35,9 +35,7 @@ fn get_all_safe_lines(inp: &Vec<Vec<i32>>) -> i32 {
             res += 1;
         } else {
             for i in 0..l.len() {
-                //println!("old line: {:?}", l);
                 let new_line = [&l[0..i], &l[i+1..]].concat();
-                //println!("new line: {:?}", new_line);
                 if is_line_safe(&new_line) {
                     res += 1;
                     break
