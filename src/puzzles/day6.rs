@@ -4,8 +4,8 @@ use std::fs;
 pub fn solve() {
     let input = parse_input();
     let result_p1 = walk(&input);
-    println!("{}", result_p1);
-    let result_p2 = walk_in_loops(&input);
+    println!("{}", result_p1.0);
+    let result_p2 = walk_in_loops(&input, &result_p1.1);
     println!("{}", result_p2);
 }
 
@@ -15,7 +15,7 @@ fn parse_input() -> Vec<Vec<char>> {
     lines.iter().map(|&line| line.chars().collect()).collect()
 }
 
-fn walk(area: &Vec<Vec<char>>) -> usize {
+fn walk(area: &Vec<Vec<char>>) -> (usize, Vec<(usize, usize)>)  {
     let mut cur_position = get_initial_position(area);
     let mut prev_position = cur_position;
     let mut walked_positions: Vec<(usize, usize)> = Vec::new();
@@ -43,16 +43,19 @@ fn walk(area: &Vec<Vec<char>>) -> usize {
         }
     }
     let mut uq_positions: HashSet<(usize, usize)> = HashSet::new();
-    for wp in walked_positions {
-        uq_positions.insert(wp);
+    for wp in &walked_positions {
+        uq_positions.insert(*wp);
     }
-    uq_positions.len()
+    (uq_positions.len(), walked_positions)
 }
 
-fn walk_in_loops(area: &Vec<Vec<char>>) -> usize {
+fn walk_in_loops(area: &Vec<Vec<char>>, visited_positions: &Vec<(usize, usize)>) -> usize {
     let mut obstacles_count: usize = 0;
     for y in 0..area.len() {
         for x in 0..area.first().unwrap().len() {
+            if !visited_positions.contains(&(x, y)) {
+                continue;
+            }
             let mut cur_position = get_initial_position(area);
             let mut prev_position = cur_position;
             let mut dir: usize = 0;
