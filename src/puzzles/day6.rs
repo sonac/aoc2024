@@ -5,8 +5,8 @@ pub fn solve() {
     let input = parse_input();
     let result_p1 = walk(&input);
     println!("{}", result_p1.0);
-    let result_p2 = walk_in_loops(&input, &result_p1.1);
-    println!("{}", result_p2);
+    //let result_p2 = walk_in_loops(&input, &result_p1.1);
+    //println!("{}", result_p2);
 }
 
 fn parse_input() -> Vec<Vec<char>> {
